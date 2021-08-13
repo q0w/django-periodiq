@@ -8,7 +8,7 @@
 
 
 ## Installation
-    pip install django-periodiq
+    pip install django-dramatiq django-periodiq
 Add `django_periodiq` to installed apps *before* any of your custom
 apps and *after* `django_dramatiq`:
 ``` python
@@ -31,6 +31,10 @@ DRAMATIQ_BROKER = {
     ],
 }
 ```
+Run dramatiq:
+```shell
+python manage.py rundramatiq
+````
 Run periodiq:
 ```shell
 python manage.py runperiodiq
