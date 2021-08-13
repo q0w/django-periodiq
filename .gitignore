@@ -6,3 +6,9 @@
 /.tox
 /venv*
 .vscode
+.idea/
+__pycache__
+/.python-version
+/dist
+/build
+/htmlcov
