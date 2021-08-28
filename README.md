@@ -3,12 +3,12 @@
 
 
 ## Requirements
-* [Django][django] 2.2+
+* [django-dramatiq][django-dramatiq] 0.10.0+
 * [Periodiq][periodiq] 0.12.1+
 
 
 ## Installation
-    pip install django-dramatiq django-periodiq
+    pip install django-periodiq
 Add `django_periodiq` to installed apps *before* any of your custom
 apps and *after* `django_dramatiq`:
 ``` python
@@ -41,4 +41,4 @@ python manage.py runperiodiq
 ```
 
 [periodiq]: https://gitlab.com/bersace/periodiq
-[django]: http://djangoproject.com/
+[django-dramatiq]: https://github.com/Bogdanp/django_dramatiq
