@@ -12,8 +12,6 @@
 Add `django_periodiq` to installed apps *before* any of your custom
 apps and *after* `django_dramatiq`:
 ``` python
-import os
-
 INSTALLED_APPS = [
     "django_dramatiq",
     "django_periodiq",
@@ -31,6 +29,8 @@ DRAMATIQ_BROKER = {
     ],
 }
 ```
+To change `PeriodiqMiddleware.skip_delay` add `PERIODIQ_SKIP_DELAY` settings
+
 Run dramatiq:
 ```shell
 python manage.py rundramatiq
