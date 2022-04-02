@@ -3,41 +3,14 @@ name: CI
 on: [push, pull_request, workflow_dispatch]
 
 env:
-  FORCE_COLOR: "1"
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
-  cancel-in-progress: true
+  PY_COLORS: "1"
 
 jobs:
-  pre-commit:
-    name: pre-commit
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: pre-commit cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pre-commit
-          key: lint-pre-commit-${{ hashFiles('**/.pre-commit-config.yaml') }}
-          restore-keys: |
-            lint-pre-commit-
-
-      - uses: actions/setup-python@v3
-      - uses: pre-commit/action@v2.0.3
-        with:
-          extra_args: --all-files
-
   test:
     name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
 
-    needs: [pre-commit]
-
     strategy:
-      fail-fast: true
       matrix:
         python-version:
           - 3.7
@@ -52,10 +25,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: |
-          python3 -m pip install -U pip
-          python3 -m pip install -U nox
+        run: pip install -U tox pip virtualenv setuptools
 
       - name: Run tests
-        run: >-
-          nox -s test -- --verbose --showlocals
+        run: tox -e py
