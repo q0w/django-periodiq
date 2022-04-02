@@ -5,20 +5,6 @@ from unittest import mock
 
 from django.core.management import call_command
 
-from django_periodiq.management.commands import runperiodiq
-
-
-def test_rundperiodiq_command_autodiscovers_modules():
-    assert runperiodiq.Command().discover_tasks_modules() == [
-        "django_periodiq.setup",
-        "django_dramatiq.tasks",
-        "testing.testapp1.tasks",
-        "testing.testapp2.tasks.task",
-        "testing.testapp2.tasks.tasks",
-        "testing.testapp2.tasks.utils",
-        "testing.testapp2.tasks.utils.not_a_task",
-    ]
-
 
 @mock.patch("os.execvp")
 def test_runperiodiq_can_run_periodiq(execvp_mock):
@@ -43,6 +29,7 @@ def test_runperiodiq_can_run_periodiq(execvp_mock):
         [
             expected_exec_name,
             "django_periodiq.setup",
+            "django_dramatiq.setup",
             "django_dramatiq.tasks",
             "testing.testapp1.tasks",
             "testing.testapp2.tasks.task",
@@ -72,6 +59,7 @@ def test_runperiodiq_can_run_periodiq_with_specified_pid_file(execvp_mock):
         [
             expected_exec_name,
             "django_periodiq.setup",
+            "django_dramatiq.setup",
             "django_dramatiq.tasks",
             "testing.testapp1.tasks",
             "testing.testapp2.tasks.task",
@@ -103,6 +91,7 @@ def test_runperiodiq_can_run_periodiq_with_specified_log_file(execvp_mock):
         [
             expected_exec_name,
             "django_periodiq.setup",
+            "django_dramatiq.setup",
             "django_dramatiq.tasks",
             "testing.testapp1.tasks",
             "testing.testapp2.tasks.task",
@@ -141,6 +130,7 @@ def test_runperiodiq_can_ingore_modules(execvp_mock, settings):
         [
             expected_exec_name,
             "django_periodiq.setup",
+            "django_dramatiq.setup",
             "django_dramatiq.tasks",
             "testing.testapp2.tasks.task",
             "testing.testapp2.tasks.utils",
