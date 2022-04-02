@@ -149,3 +149,10 @@ def test_runperiodiq_can_ingore_modules(execvp_mock, settings):
             ".",
         ],
     )
+
+
+@mock.patch("os.execvp")
+def test_runperiodiq_suppress_output(execvp_mock):
+    buff = StringIO()
+    call_command("runperiodiq", "-v0", stdout=buff)
+    assert not buff.getvalue()
