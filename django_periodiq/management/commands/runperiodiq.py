@@ -42,7 +42,7 @@ class Command(BaseCommand):
         executable_path = self._resolve_executable(executable_name)
 
         verbosity_args = ["-v"] * (verbosity - 1)
-        tasks_modules = self.discover_tasks_modules()
+        tasks_modules = self.discover_tasks_modules(verbosity)
         process_args = [
             executable_name,
             # -v -v ...
@@ -58,10 +58,10 @@ class Command(BaseCommand):
 
         if log_file:
             process_args.extend(["--log-file", log_file])
-
-        self.stdout.write(
-            ' * Running periodiq: "%s"\n\n' % " ".join(process_args),
-        )
+        if verbosity:
+            self.stdout.write(
+                ' * Running periodiq: "%s"\n\n' % " ".join(process_args),
+            )
 
         if sys.platform == "win32":
             command = [executable_path] + process_args[1:]
@@ -69,7 +69,7 @@ class Command(BaseCommand):
 
         os.execvp(executable_path, process_args)
 
-    def discover_tasks_modules(self):
+    def discover_tasks_modules(self, verbosity=1):
         task_module_names = getattr(
             settings,
             "DRAMATIQ_AUTODISCOVER_MODULES",
@@ -114,20 +114,25 @@ class Command(BaseCommand):
 
             imported_module = importlib.import_module(module)
             if not self._is_package(imported_module):
-                self.stdout.write(" * Discovered tasks module: %r" % module)
+                if verbosity:
+                    self.stdout.write(
+                        " * Discovered tasks module: %r" % module,
+                    )
                 tasks_modules.append(module)
             else:
                 submodules = self._get_submodules(imported_module)
 
                 for submodule in submodules:
                     if is_ignored_module(submodule):
-                        self.stdout.write(
-                            " * Ignored tasks module: %r" % submodule,
-                        )
+                        if verbosity:
+                            self.stdout.write(
+                                " * Ignored tasks module: %r" % submodule,
+                            )
                     else:
-                        self.stdout.write(
-                            " * Discovered tasks module: %r" % submodule,
-                        )
+                        if verbosity:
+                            self.stdout.write(
+                                " * Discovered tasks module: %r" % submodule,
+                            )
                         tasks_modules.append(submodule)
 
         return tasks_modules
