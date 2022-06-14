@@ -23,8 +23,7 @@ class Command(DramatiqCommand):
         parser.add_argument(
             "--pid-file",
             type=str,
-            help="write the PID of the master process"
-                 " to a file (default: no pid file)",
+            help="write the PID of the master process to a file (default: no pid file)",
         )
         parser.add_argument(
             "--log-file",
@@ -54,9 +53,7 @@ class Command(DramatiqCommand):
         if log_file:
             process_args.extend(["--log-file", log_file])
 
-        self.stdout.write(
-            ' * Running periodiq: "%s"\n\n' % " ".join(process_args),
-        )
+        self.stdout.write(f" * Running periodiq: {' '.join(process_args)}\n\n")
 
         if sys.platform == "win32":
             command = [executable_path] + process_args[1:]
