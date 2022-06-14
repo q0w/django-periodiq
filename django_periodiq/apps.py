@@ -10,6 +10,3 @@ class DjangoPeriodiqConfig(DjangoDramatiqConfig):
     def middleware_periodiqmiddleware_kwargs(cls):
         skip_delay = getattr(settings, "PERIODIQ_SKIP_DELAY", 30)
         return {"skip_delay": skip_delay}
-
-
-DjangoPeriodiqConfig.initialize()
