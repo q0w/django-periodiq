@@ -20,18 +20,8 @@ class Command(DramatiqCommand):
             type=str,
             help="The import path (default: .).",
         )
-        parser.add_argument(
-            "--pid-file",
-            type=str,
-            help="write the PID of the master process to a file (default: no pid file)",
-        )
-        parser.add_argument(
-            "--log-file",
-            type=str,
-            help="write all logs to a file (default: sys.stderr)",
-        )
 
-    def handle(self, path, verbosity, pid_file, log_file, **options):
+    def handle(self, path, verbosity, **options):
         executable_name = "periodiq"
         executable_path = self._resolve_executable(executable_name)
 
@@ -46,12 +36,6 @@ class Command(DramatiqCommand):
             "--path",
             *path,
         ]
-
-        if pid_file:
-            process_args.extend(["--pid-file", pid_file])
-
-        if log_file:
-            process_args.extend(["--log-file", log_file])
 
         self.stdout.write(f" * Running periodiq: {' '.join(process_args)}\n\n")
 
