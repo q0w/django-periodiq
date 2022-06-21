@@ -16,7 +16,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_dramatiq",
-    "django_periodiq",
+    "django_periodiq.apps.DjangoPeriodiqConfig",
     "testing.testapp1",
     "testing.testapp2",
 ]
@@ -86,6 +86,8 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+PERIODIQ_SKIP_DELAY = 40
 
 DRAMATIQ_BROKER = {
     "BROKER": "dramatiq.brokers.stub.StubBroker",
