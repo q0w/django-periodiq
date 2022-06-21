@@ -11,12 +11,8 @@ def test_runperiodiq_can_run_periodiq(execvp_mock):
     buff = StringIO()
     call_command("runperiodiq", stdout=buff)
 
-    assert (
-        "Discovered tasks module: 'django_dramatiq.tasks'" in buff.getvalue()
-    )
-    assert (
-        "Discovered tasks module: 'testing.testapp1.tasks'" in buff.getvalue()
-    )
+    assert "Discovered tasks module: 'django_dramatiq.tasks'" in buff.getvalue()
+    assert "Discovered tasks module: 'testing.testapp1.tasks'" in buff.getvalue()
 
     expected_exec_name = "periodiq"
     expected_exec_path = os.path.join(
@@ -54,6 +50,7 @@ def test_runperiodiq_can_ingore_modules(execvp_mock, settings):
     call_command("runperiodiq", stdout=buff)
 
     assert "Ignored tasks module: 'testing.testapp1.tasks'" in buff.getvalue()
+    assert "Ignored tasks module: 'testing.testapp2.tasks.tasks'" in buff.getvalue()
 
     expected_exec_name = "periodiq"
     expected_exec_path = os.path.join(
