@@ -3,7 +3,7 @@
 
 
 ## Requirements
-* [django-dramatiq][django-dramatiq] 0.10.0+
+* [django-dramatiq][django-dramatiq] 0.11.0+
 * [Periodiq][periodiq] 0.12.1+
 
 
