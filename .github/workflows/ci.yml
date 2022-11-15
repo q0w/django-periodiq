@@ -24,8 +24,5 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Run tests
-        run: |
-          pip install --disable-pip-version-check tox-py
-          tox --py current
+      - run: pip install tox-py
+      - run: tox --py current
