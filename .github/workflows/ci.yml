@@ -24,5 +24,6 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      - run: pip install tox-py
-      - run: tox --py current
+      - run: pip install -U pip setuptools wheel
+      - run: pip install -U 'tox>=4.0.0rc3'
+      - run: tox run -f py$(echo ${{ matrix.python-version }} | tr -d .)
