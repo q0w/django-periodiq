@@ -22,6 +22,13 @@ class Command(DramatiqCommand):
         )
 
     def handle(self, path, verbosity, **options):
+        def _write(*args, **kwargs):
+            if verbosity:
+                self.stdout._write(*args, **kwargs)
+
+        self.stdout._write = self.stdout.write
+        self.stdout.write = _write
+
         executable_name = "periodiq"
         executable_path = self._resolve_executable(executable_name)
 
